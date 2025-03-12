@@ -31,4 +31,15 @@ public class MessageService {
     public int deleteMessageById(Integer messageId) {
         return messageRepository.deleteByMessageId(messageId);
     }
+
+    public int patchMessage(Integer messageId, Message message) {
+        Message found = getMessageById(messageId);
+        if (!message.getMessageText().isBlank() && 
+            message.getMessageText().length() <= 255 &&
+            found != null) {
+            messageRepository.save(message);
+            return 1;
+        }
+        return 0;
+    }
 }
