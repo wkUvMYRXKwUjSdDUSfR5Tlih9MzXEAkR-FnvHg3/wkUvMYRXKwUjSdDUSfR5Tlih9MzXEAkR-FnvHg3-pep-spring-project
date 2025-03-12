@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Account;
+import com.example.entity.Message;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
 
@@ -44,6 +45,17 @@ public class SocialMediaController {
             return ResponseEntity.status(200).body(found);
         }
         return ResponseEntity.status(401).body("Unauthorized");
+    }
+
+    @PostMapping("/messages")
+    public ResponseEntity postMessage(@RequestBody Message message) {
+        if (!message.getMessageText().isBlank() && 
+            message.getMessageText().length() <= 255 && 
+            accountService.findById(message.getPostedBy()) != null) {
+            Message newMessage = messageService.addMessage(message);
+            return ResponseEntity.status(200).body(newMessage);
+        }
+        return ResponseEntity.status(400).body("Client error");
     }
 
 }
