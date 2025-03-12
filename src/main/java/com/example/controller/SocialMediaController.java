@@ -83,4 +83,9 @@ public class SocialMediaController {
         int rows = messageService.patchMessage(messageId, message);
         return rows != 0 ? ResponseEntity.status(200).body(rows) : ResponseEntity.status(400).body("Client error");
     }
+
+    @GetMapping("/accounts/{accountId}/messages")
+    public ResponseEntity getAllMessagesByAccountId(@PathVariable Integer accountId) {
+        return ResponseEntity.status(200).body(messageService.getAllMessagesByAccountId(accountId));
+    }
 }
