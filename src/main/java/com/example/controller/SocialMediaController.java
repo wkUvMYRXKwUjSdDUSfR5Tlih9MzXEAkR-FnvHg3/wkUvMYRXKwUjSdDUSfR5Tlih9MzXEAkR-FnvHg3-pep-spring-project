@@ -37,4 +37,13 @@ public class SocialMediaController {
         return ResponseEntity.status(200).body(newAccount);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity postUserLogin(@RequestBody Account account) {
+        Account found = accountService.findByUsername(account.getUsername());
+        if (found != null && found.getPassword().equals(account.getPassword())) {
+            return ResponseEntity.status(200).body(found);
+        }
+        return ResponseEntity.status(401).body("Unauthorized");
+    }
+
 }
